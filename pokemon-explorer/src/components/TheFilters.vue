@@ -2,7 +2,9 @@
   <span>Filters</span>
   <ul class="list">
     <li v-for="el in pokemonsTypes" :key="el.name">
-      <button @click="flipIsActive(el)" :class="{ active: el.isActive }">{{ el.name }}</button>
+      <toggle-button @click="flipIsActive(el)" :class="{ active: el.isActive }">{{
+        el.name
+      }}</toggle-button>
     </li>
   </ul>
 </template>
@@ -11,8 +13,10 @@
 import { usePokemonsStore } from '@/stores/pokemonsStore'
 import type { PokemonType } from '@/types'
 import type { PropType } from 'vue'
+import ToggleButton from 'primevue/togglebutton'
 
 export default {
+  components: { ToggleButton },
   data() {
     return {
       pokemonsStore: usePokemonsStore(),

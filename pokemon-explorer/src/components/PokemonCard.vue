@@ -1,17 +1,20 @@
 <template>
-  <figure>
-    <image width="200" height="200" :src="details.img"></image>
-  </figure>
+  <prime-image :src="details.img" :alt="details.name"></prime-image>
+  <prime-dialog>khjhj</prime-dialog>
+
   <div>{{ name }}</div>
-  <div>{{ details.id }}</div>
+  <div>#{{ details.id }}</div>
   <div v-for="el in details.types" :key="el">{{ el }}</div>
   <br />
 </template>
 
 <script lang="ts">
 import type { PokemonDetails, PokemonDetailsResponse } from '@/types'
+import PrimeDialog from 'primevue/dialog'
+import PrimeImage from 'primevue/image'
 
 export default {
+  components: { PrimeImage, PrimeDialog },
   props: ['name'],
   data() {
     return {
