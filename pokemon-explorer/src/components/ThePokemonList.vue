@@ -40,4 +40,16 @@ export default {
 .button:hover {
   background-color: rgb(95, 134, 201);
 }
+
+@media only screen and (max-width: 700px) {
+  .list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

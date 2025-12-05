@@ -1,48 +1,51 @@
-# pokemon-explorer
+# Pokemon Explorer
 
-This template should help get you started developing with Vue 3 in Vite.
+install: npm i  
+run: npm run dev
+build: npm run build
+build dev: npm run build-dev
 
-## Recommended IDE Setup
+## Prologue
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The Surveys! is a dynamic survey-generator app. Using a clean configuration UI, it generates customizable, multi-page surveys based on 5 different question types.
 
-## Recommended Browser Setup
+Tech stack:
+React • TypeScript • Redux • Ant Design
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## The core
 
-## Type Support for `.vue` Imports in TS
+The application consists of two layers:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+1. Survey Builder (React): a full UI for configuring survey settings and building the list of questions.
+2. Survey Runtime (Vanilla TypeScript): a lightweight script injected into the global scope, exposing a createSurvey() function used to render the actual survey based on the builder’s exported configuration.
 
-## Customize configuration
+This approach keeps the builder component-driven and interactive, while the final survey stays framework-agnostic and easily embeddable anywhere.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Builder:
 
-## Project Setup
+A configurable form that lets the user define:
+• General survey settings:
+• description visible at the top
+• number of questions per page
+• validation style (disabled buttons vs. highlighting unanswered required questions)
+• Questions:
+All question parameters are fully customizable, including open text limits, required flags, answer options, date boundaries, etc.
 
-```sh
-npm install
-```
+All configurations are stored in Redux and synchronized into a JSON used later to launch the survey preview.
 
-### Compile and Hot-Reload for Development
+## Survey:
 
-```sh
-npm run dev
-```
+The survey is rendered as a paginated form with:
+• 5 supported question types
+• a global description
+• client-side validation
+• a final summary/thank-you page
+• console logging of submitted results (for now)
 
-### Type-Check, Compile and Minify for Production
+## Next steps:
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Planned improvements include:
+• Backend for storing multiple surveys
+• Publishing / sharing surveys
+• Collecting responses
+• Dashboard for analytics & results visualisation

@@ -46,6 +46,7 @@ export default {
   display: flex;
   gap: 5px;
   list-style: none;
+  flex-wrap: wrap;
 }
 .button {
   border-radius: 50px;

@@ -26,4 +26,12 @@ export default {
   height: 40px;
   margin-right: 20px;
 }
+
+@media only screen and (max-width: 500px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
 </style>
