@@ -1,8 +1,10 @@
 <template>
-  <the-header></the-header>
-  <the-search-box></the-search-box>
-  <the-filters :pokemonsTypes="pokemonsStore.pokemonsTypes"></the-filters>
-  <the-pokemon-list></the-pokemon-list>
+  <div class="main-container">
+    <the-header></the-header>
+    <the-search-box></the-search-box>
+    <the-filters :pokemonsTypes="pokemonsStore.pokemonsTypes"></the-filters>
+    <the-pokemon-list></the-pokemon-list>
+  </div>
 </template>
 
 <script lang="ts">
@@ -73,5 +75,10 @@ export default {
 html {
   font-family: Roboto, 'Open Sans', 'Segoe UI', system-ui;
   background-color: rgb(20, 20, 20);
+}
+
+.main-container {
+  max-width: 1400px;
+  margin: auto;
 }
 </style>
