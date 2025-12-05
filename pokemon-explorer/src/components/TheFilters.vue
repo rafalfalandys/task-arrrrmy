@@ -1,10 +1,15 @@
 <template>
-  <span>Filters</span>
   <ul class="list">
     <li v-for="el in pokemonsTypes" :key="el.name">
-      <toggle-button @click="flipIsActive(el)" :class="{ active: el.isActive }">{{
-        el.name
-      }}</toggle-button>
+      <button
+        :style="{ backgroundColor: colors[el.name] }"
+        @click="flipIsActive(el)"
+        :class="{ active: el.isActive }"
+        class="button"
+        rounded
+      >
+        {{ el.name }}
+      </button>
     </li>
   </ul>
 </template>
@@ -13,13 +18,13 @@
 import { usePokemonsStore } from '@/stores/pokemonsStore'
 import type { PokemonType } from '@/types'
 import type { PropType } from 'vue'
-import ToggleButton from 'primevue/togglebutton'
+import { colors } from '@/config'
 
 export default {
-  components: { ToggleButton },
   data() {
     return {
       pokemonsStore: usePokemonsStore(),
+      colors,
     }
   },
   props: {
@@ -28,8 +33,6 @@ export default {
       required: true,
     },
   },
-  computed: {},
-  watch: {},
   methods: {
     flipIsActive(el: PokemonType) {
       this.pokemonsStore.setActiveType(el.name, !el.isActive)
@@ -39,10 +42,25 @@ export default {
 </script>
 
 <style scoped>
-.active {
-  background-color: red;
-}
 .list {
   display: flex;
+  gap: 5px;
+  list-style: none;
+}
+.button {
+  border-radius: 50px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  color: white;
+  background-color: gray;
+  border: solid 3px rgb(20, 20, 20);
+  transform: scale(1);
+  transition: all 0.2s;
+}
+.button:hover {
+  transform: translateY(-2px);
+}
+.active {
+  border-color: rgb(220, 220, 220);
 }
 </style>

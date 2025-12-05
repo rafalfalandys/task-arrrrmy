@@ -1,7 +1,7 @@
 <template>
   <the-header></the-header>
-  <the-filters :pokemonsTypes="pokemonsStore.pokemonsTypes"></the-filters>
   <the-search-box></the-search-box>
+  <the-filters :pokemonsTypes="pokemonsStore.pokemonsTypes"></the-filters>
   <the-pokemon-list></the-pokemon-list>
 </template>
 
@@ -69,4 +69,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style>
+html {
+  font-family: Roboto, 'Open Sans', 'Segoe UI', system-ui;
+  background-color: rgb(20, 20, 20);
+}
+</style>

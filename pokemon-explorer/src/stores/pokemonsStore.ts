@@ -6,7 +6,7 @@ export const usePokemonsStore = defineStore('pokemonsStore', () => {
   const pokemonsTypes: Ref<PokemonType[]> = ref([])
   const pokemonsNames: Ref<string[]> = ref([])
   const filteredPokemons: Ref<string[]> = ref([])
-  const pokemonsPerPage: Ref<number> = ref(20)
+  const pokemonsPerPage: Ref<number> = ref(6)
   const searchQuery: Ref<string> = ref('')
 
   const activeTypes = computed(() =>
@@ -43,7 +43,7 @@ export const usePokemonsStore = defineStore('pokemonsStore', () => {
   }
 
   const loadMorePokemons = () => {
-    pokemonsPerPage.value += 20
+    pokemonsPerPage.value += 6
   }
 
   return {

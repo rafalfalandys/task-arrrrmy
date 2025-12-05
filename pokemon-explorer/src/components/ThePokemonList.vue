@@ -1,6 +1,10 @@
 <template>
-  <pokemon-card v-for="el in pokemonsStore.pagedList" :key="el" :name="el"></pokemon-card>
-  <prime-button @click="pokemonsStore.loadMorePokemons">Load more</prime-button>
+  <div class="list">
+    <pokemon-card v-for="el in pokemonsStore.pagedList" :key="el" :name="el"></pokemon-card>
+  </div>
+  <prime-button rounded @click="pokemonsStore.loadMorePokemons" class="button"
+    >Load More</prime-button
+  >
 </template>
 
 <script lang="ts">
@@ -15,10 +19,25 @@ export default {
       pokemonsStore: usePokemonsStore(),
     }
   },
-  computed: {},
-  watch: {},
-  methods: {},
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.button {
+  display: block;
+  text-align: center;
+  margin: auto;
+  margin-top: 3rem;
+  background-color: rgb(38, 99, 205);
+  border-color: rgb(38, 99, 205);
+}
+
+.button:hover {
+  background-color: rgb(95, 134, 201);
+}
+</style>

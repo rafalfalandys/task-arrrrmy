@@ -1,6 +1,11 @@
 <template>
-  <label for="">search</label>
-  <input-text type="text" v-model="pokemonsStore.searchQuery" />
+  <input-text
+    class="search-box"
+    type="text"
+    v-model="pokemonsStore.searchQuery"
+    placeholder="Search Pokemon"
+    rounded
+  />
 </template>
 
 <script lang="ts">
@@ -24,4 +29,15 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.search-box {
+  background-color: rgb(40, 40, 40);
+  border-radius: 50px;
+  margin: auto;
+  display: block;
+  color: white;
+  border: none;
+  min-width: 50vw;
+  padding: 16px;
+}
+</style>
