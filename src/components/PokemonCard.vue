@@ -1,4 +1,3 @@
-<!-- :style="{ backgroundColor: 'linear-gradient(90deg,#B7B7CE #B6A136) 100%);' }" -->
 <template>
   <div class="card__container" :style="{ background: colors }" @click="toggleModal">
     <prime-image :src="details.img" :alt="details.name"></prime-image>
@@ -8,49 +7,43 @@
       <div class="types" v-for="el in details.types" :key="el">{{ el }}</div>
     </div>
   </div>
-  <prime-dialog v-model:visible="modalVisible">The details of {{ name }} coming soon</prime-dialog>
+  <prime-dialog v-model:visible="modalVisible"
+    ><the-modal :details="details"></the-modal
+  ></prime-dialog>
 </template>
 
 <script lang="ts">
-import type { PokemonDetails, PokemonDetailsResponse } from '@/types'
+import type { PokemonDetails } from '@/types'
 import PrimeDialog from 'primevue/dialog'
 import PrimeImage from 'primevue/image'
 import { colors } from '@/config'
+import TheModal from './TheModal.vue'
+import { useApi } from '@/api'
 
 export default {
-  components: { PrimeImage, PrimeDialog },
+  components: { PrimeImage, PrimeDialog, TheModal },
   props: ['name'],
   data() {
     return {
       details: {} as PokemonDetails,
       colors: 'grey',
       modalVisible: false,
+      api: useApi(),
     }
   },
   methods: {
-    async fetchDetails() {
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.name}`)
-
-      if (!res.ok) throw new Error('Problem with fetching pokemon details')
-
-      const data: PokemonDetailsResponse = await res.json()
-      const details = {
-        name: data.name,
-        id: data.id,
-        types: data.types.map((el) => el.type.name),
-        img: data.sprites['front_default'] || '',
-      }
-      this.details = details
-
-      const colorsArr = details.types.map((el) => colors[el])
-      this.colors = `linear-gradient(90deg, ${colorsArr.join(', ')})`
-    },
     toggleModal() {
       this.modalVisible = !this.modalVisible
     },
   },
-  mounted() {
-    this.fetchDetails()
+
+  async mounted() {
+    const details = await this.api.fetchDetails(this.name)
+    this.details = details
+
+    // build inline style for card color
+    const colorsArr = details.types.map((el) => colors[el])
+    this.colors = `linear-gradient(90deg, ${colorsArr.join(', ')})`
   },
 }
 </script>
