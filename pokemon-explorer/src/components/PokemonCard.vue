@@ -4,7 +4,9 @@
     <prime-image :src="details.img" :alt="details.name"></prime-image>
     <div>{{ name }}</div>
     <div>#{{ (details.id + '').padStart(3, '0') }}</div>
-    <div v-for="el in details.types" :key="el">{{ el }}</div>
+    <div class="types__wrapper">
+      <div class="types" v-for="el in details.types" :key="el">{{ el }}</div>
+    </div>
   </div>
   <prime-dialog v-model:visible="modalVisible">The details of {{ name }} coming soon</prime-dialog>
 </template>
@@ -63,8 +65,19 @@ export default {
   min-height: 200px;
   transition: all 0.2s;
   cursor: pointer;
+  color: white;
 }
 .card__container:hover {
   transform: translateY(-5px);
+}
+.types__wrapper {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.types {
+  background-color: rgba(255, 255, 255, 0.205);
+  padding: 8px 16px;
+  border-radius: 50px;
 }
 </style>
