@@ -1,11 +1,17 @@
 <template>
-  <div class="container" :style="{ background: colors }" @click="toggleModal">
-    <prime-image :src="details.img" :alt="details.name"></prime-image>
-    <div class="text-wrapper">
-      <h3 class="header">{{ name }}</h3>
-      <span>#{{ (details.id + '').padStart(3, '0') }}</span>
-      <div class="types__wrapper">
-        <span class="types" v-for="el in details.types" :key="el">{{ el }}</span>
+  <div class="container" :style="{ background: colors }">
+    <div @click="toggleFavorite">
+      <i class="pi pi-bookmark bookmark-icon" v-if="!isFavorite"></i>
+      <i class="pi pi-bookmark-fill bookmark-icon" v-if="isFavorite"></i>
+    </div>
+    <div @click="toggleModal">
+      <prime-image :src="details.img" :alt="details.name"></prime-image>
+      <div class="text-wrapper">
+        <h3 class="header">{{ name }}</h3>
+        <span>#{{ (details.id + '').padStart(3, '0') }}</span>
+        <div class="types__wrapper">
+          <span class="types" v-for="el in details.types" :key="el">{{ el }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -22,8 +28,9 @@ import type { PokemonDetails } from '@/types'
 import PrimeDialog from 'primevue/dialog'
 import PrimeImage from 'primevue/image'
 import { colors } from '@/config'
-import TheModal from './TheModal.vue'
+import TheModal from './ModalWindow.vue'
 import { useApi } from '@/api'
+import { getLocalBookmarks } from '@/helper'
 
 export default {
   components: { PrimeImage, PrimeDialog, TheModal },
@@ -34,15 +41,37 @@ export default {
       colors: 'grey',
       modalVisible: false,
       api: useApi(),
+      isFavorite: false,
     }
   },
   methods: {
     toggleModal() {
       this.modalVisible = !this.modalVisible
     },
+    toggleFavorite() {
+      const currentBookmarks = getLocalBookmarks()
+
+      let updatedBookmarks: string[]
+
+      if (this.isFavorite) {
+        updatedBookmarks = currentBookmarks.filter((el: string) => el !== this.name)
+        this.isFavorite = false
+      } else {
+        updatedBookmarks = [...currentBookmarks, this.name]
+        this.isFavorite = true
+      }
+
+      window.localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks))
+    },
+    checkFavorite() {
+      const currentBookmarks = getLocalBookmarks()
+      this.isFavorite = currentBookmarks.includes(this.name)
+    },
   },
 
   async mounted() {
+    this.checkFavorite()
+
     const details = await this.api.fetchDetails(this.name)
     if (details) {
       this.details = details
@@ -61,6 +90,7 @@ export default {
   flex-direction: column;
   align-items: center;
 
+  position: relative;
   padding: 1rem;
   min-height: 200px;
   border-radius: 20px;
@@ -91,6 +121,15 @@ export default {
   padding: 8px 16px;
   border-radius: 50px;
   text-transform: capitalize;
+}
+.bookmark-icon {
+  position: absolute;
+  right: 1.2rem;
+  top: 1.2rem;
+  transition: all 0.2s;
+}
+.bookmark-icon:hover {
+  transform: scale(1.2);
 }
 @media only screen and (max-width: 500px) {
   .container {
