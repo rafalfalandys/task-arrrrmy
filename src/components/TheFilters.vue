@@ -57,6 +57,7 @@ export default {
   border: solid 3px rgb(20, 20, 20);
   transform: scale(1);
   transition: all 0.2s;
+  text-transform: capitalize;
 }
 .button:hover {
   transform: translateY(-2px);

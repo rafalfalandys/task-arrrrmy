@@ -50,4 +50,8 @@ html {
   max-width: 1400px;
   margin: auto;
 }
+
+.p-galleria-thumbnails > .p-galleria-thumbnails-content {
+  background-color: rgb(60, 60, 60);
+}
 </style>

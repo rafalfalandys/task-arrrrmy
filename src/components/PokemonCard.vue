@@ -1,13 +1,16 @@
 <template>
-  <div class="card__container" :style="{ background: colors }" @click="toggleModal">
+  <div class="container" :style="{ background: colors }" @click="toggleModal">
     <prime-image :src="details.img" :alt="details.name"></prime-image>
-    <div>{{ name }}</div>
-    <div>#{{ (details.id + '').padStart(3, '0') }}</div>
+    <h3 class="header">{{ name }}</h3>
+    <span>#{{ (details.id + '').padStart(3, '0') }}</span>
     <div class="types__wrapper">
-      <div class="types" v-for="el in details.types" :key="el">{{ el }}</div>
+      <span class="types" v-for="el in details.types" :key="el">{{ el }}</span>
     </div>
   </div>
-  <prime-dialog v-model:visible="modalVisible"
+  <prime-dialog
+    v-model:visible="modalVisible"
+    class="modal"
+    :style="{ background: 'rgb(40, 40, 40)', borderColor: 'rgb(20, 20, 20)' }"
     ><the-modal :details="details"></the-modal
   ></prime-dialog>
 </template>
@@ -39,29 +42,37 @@ export default {
 
   async mounted() {
     const details = await this.api.fetchDetails(this.name)
-    this.details = details
+    if (details) {
+      this.details = details
 
-    // build inline style for card color
-    const colorsArr = details.types.map((el) => colors[el])
-    this.colors = `linear-gradient(90deg, ${colorsArr.join(', ')})`
+      // build inline style for card color
+      const colorsArr = details.types.map((el) => colors[el])
+      this.colors = `linear-gradient(90deg, ${colorsArr.join(', ')})`
+    }
   },
 }
 </script>
 
 <style scoped>
-.card__container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: grey;
-  border-radius: 20px;
+
+  padding: 1rem;
   min-height: 200px;
+  border-radius: 20px;
+  background-color: grey;
+
   transition: all 0.2s;
   cursor: pointer;
   color: white;
 }
-.card__container:hover {
+.container:hover {
   transform: translateY(-5px);
+}
+.header {
+  text-transform: capitalize;
 }
 .types__wrapper {
   display: flex;
@@ -72,5 +83,6 @@ export default {
   background-color: rgba(255, 255, 255, 0.205);
   padding: 8px 16px;
   border-radius: 50px;
+  text-transform: capitalize;
 }
 </style>
