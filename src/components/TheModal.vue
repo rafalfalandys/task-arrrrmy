@@ -16,7 +16,7 @@
     <h4>Galleria:</h4>
     <galleria :value="allImgs" container-class="galleria">
       <template #item="slotProps">
-        <img :src="slotProps.item" :alt="details.name" style="width: 40%" />
+        <img :src="slotProps.item" :alt="details.name" style="width: 30%" />
       </template>
       <template #thumbnail="slotProps">
         <img :src="slotProps.item" :alt="details.name" class="thumbnail" />
@@ -81,9 +81,19 @@ export default {
 .galleria {
   max-width: 400px;
   border-color: rgb(20, 20, 20);
-  /* background-color: red; */
 }
 .list-item {
   text-transform: capitalize;
+}
+
+@media only screen and (max-width: 500px) {
+  .galleria {
+    max-width: 300px;
+  }
+}
+@media only screen and (max-width: 350px) {
+  .galleria {
+    max-width: 220px;
+  }
 }
 </style>

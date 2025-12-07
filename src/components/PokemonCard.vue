@@ -1,10 +1,12 @@
 <template>
   <div class="container" :style="{ background: colors }" @click="toggleModal">
     <prime-image :src="details.img" :alt="details.name"></prime-image>
-    <h3 class="header">{{ name }}</h3>
-    <span>#{{ (details.id + '').padStart(3, '0') }}</span>
-    <div class="types__wrapper">
-      <span class="types" v-for="el in details.types" :key="el">{{ el }}</span>
+    <div class="text-wrapper">
+      <h3 class="header">{{ name }}</h3>
+      <span>#{{ (details.id + '').padStart(3, '0') }}</span>
+      <div class="types__wrapper">
+        <span class="types" v-for="el in details.types" :key="el">{{ el }}</span>
+      </div>
     </div>
   </div>
   <prime-dialog
@@ -71,6 +73,11 @@ export default {
 .container:hover {
   transform: translateY(-5px);
 }
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .header {
   text-transform: capitalize;
 }
@@ -84,5 +91,11 @@ export default {
   padding: 8px 16px;
   border-radius: 50px;
   text-transform: capitalize;
+}
+@media only screen and (max-width: 500px) {
+  .container {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+  }
 }
 </style>
