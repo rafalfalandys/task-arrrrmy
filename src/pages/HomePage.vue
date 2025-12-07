@@ -35,11 +35,6 @@ export default {
       immediate: false,
     },
   },
-
-  mounted() {
-    // prevent rerender on route change
-    if (this.pokemonsStore.pokemonsTypes.length === 0) this.api.fetchTypes()
-  },
 }
 </script>
 

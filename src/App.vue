@@ -8,10 +8,21 @@
 </template>
 
 <script lang="ts">
+import { useApi } from './api'
 import TheHeader from './components/TheHeader.vue'
+import { usePokemonsStore } from './stores/pokemonsStore'
 
 export default {
   components: { TheHeader },
+  data() {
+    return {
+      pokemonsStore: usePokemonsStore(),
+      api: useApi(),
+    }
+  },
+  mounted() {
+    this.api.fetchTypes()
+  },
 }
 </script>
 
