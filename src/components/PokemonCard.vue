@@ -4,7 +4,7 @@
       <i class="pi pi-bookmark bookmark-icon" v-if="!isFavorite"></i>
       <i class="pi pi-bookmark-fill bookmark-icon" v-if="isFavorite"></i>
     </div>
-    <div @click="toggleModal">
+    <div @click="toggleModal" class="content">
       <prime-image :src="details.img" :alt="details.name"></prime-image>
       <div class="text-wrapper">
         <h3 class="header">{{ name }}</h3>
@@ -103,6 +103,11 @@ export default {
 .container:hover {
   transform: translateY(-5px);
 }
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .text-wrapper {
   display: flex;
   flex-direction: column;
@@ -132,9 +137,11 @@ export default {
   transform: scale(1.2);
 }
 @media only screen and (max-width: 500px) {
-  .container {
+  .content {
     display: grid;
     grid-template-columns: 40% 1fr;
+    width: 100%;
+    justify-items: center;
   }
 }
 </style>
