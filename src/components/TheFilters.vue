@@ -44,6 +44,7 @@ export default {
 <style scoped>
 .list {
   display: flex;
+  justify-content: center;
   gap: 5px;
   list-style: none;
   flex-wrap: wrap;
