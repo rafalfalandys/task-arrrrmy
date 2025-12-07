@@ -1,9 +1,9 @@
 # Pokemon Explorer
 
 install: npm i  
-run: npm run dev
-build: npm run build
-build dev: npm run build-dev
+run: npm run dev  
+build: npm run build  
+build dev: npm run build-dev  
 
 ## Prologue
 
