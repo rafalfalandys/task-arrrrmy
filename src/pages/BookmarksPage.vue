@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">Bookmarks Page</div>
+  <h2 v-if="pokemons.length === 0" class="note">You have no favorite Pokemons</h2>
   <pokemons-list :pokemons="pokemons"></pokemons-list>
 </template>
 
@@ -18,4 +18,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.note {
+  text-align: center;
+  color: white;
+}
+</style>
