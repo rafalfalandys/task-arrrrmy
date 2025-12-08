@@ -19,13 +19,6 @@ export default {
       pokemonsStore: usePokemonsStore(),
     }
   },
-  computed: {},
-  watch: {},
-  methods: {
-    filterPokemons(name: InputEvent) {
-      this.pokemonsStore.setQuery(name.data!)
-    },
-  },
 }
 </script>
 

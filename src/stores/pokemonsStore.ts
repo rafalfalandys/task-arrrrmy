@@ -15,7 +15,7 @@ export const usePokemonsStore = defineStore('pokemonsStore', () => {
 
   const pagedList = computed(() => {
     return filteredPokemons.value
-      .filter((el) => el.includes(searchQuery.value))
+      .filter((el) => el.includes(searchQuery.value.toLowerCase()))
       .slice(0, pokemonsPerPage.value)
   })
 
@@ -38,7 +38,6 @@ export const usePokemonsStore = defineStore('pokemonsStore', () => {
     filteredPokemons.value = data
   }
   const setQuery = (query: string) => {
-    console.log(query)
     searchQuery.value = query
   }
 
