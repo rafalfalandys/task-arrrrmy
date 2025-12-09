@@ -1,6 +1,15 @@
 <template>
   <div class="wrapper">
     <h2 class="header">{{ details.name }}</h2>
+    <h4>Galleria:</h4>
+    <galleria :value="allImgs" container-class="galleria">
+      <template #item="slotProps">
+        <img :src="slotProps.item" :alt="details.name" style="width: 30%" />
+      </template>
+      <template #thumbnail="slotProps">
+        <img :src="slotProps.item" :alt="details.name" class="thumbnail" />
+      </template>
+    </galleria>
     <progress-spinner v-if="isLoading" class="spinner"></progress-spinner>
     <div v-else>
       <div v-if="evolutions.length > 0">
@@ -16,15 +25,6 @@
         </ul>
       </div>
     </div>
-    <h4>Galleria:</h4>
-    <galleria :value="allImgs" container-class="galleria">
-      <template #item="slotProps">
-        <img :src="slotProps.item" :alt="details.name" style="width: 30%" />
-      </template>
-      <template #thumbnail="slotProps">
-        <img :src="slotProps.item" :alt="details.name" class="thumbnail" />
-      </template>
-    </galleria>
   </div>
 </template>
 
