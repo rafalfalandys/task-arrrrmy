@@ -1,17 +1,20 @@
 <template>
   <div class="wrapper">
     <h2 class="header">{{ details.name }}</h2>
-    <div v-if="evolutions.length > 0">
-      <h4>Evolves to:</h4>
-      <ul>
-        <li class="list-item" v-for="el in evolutions" :key="el">{{ el }}</li>
-      </ul>
-    </div>
-    <div v-if="locations.length > 0">
-      <h4>Locations:</h4>
-      <ul>
-        <li class="list-item" v-for="el in locations" :key="el">{{ el }}</li>
-      </ul>
+    <progress-spinner v-if="isLoading" class="spinner"></progress-spinner>
+    <div v-else>
+      <div v-if="evolutions.length > 0">
+        <h4>Evolves to:</h4>
+        <ul>
+          <li class="list-item" v-for="el in evolutions" :key="el">{{ el }}</li>
+        </ul>
+      </div>
+      <div v-if="locations.length > 0">
+        <h4>Locations:</h4>
+        <ul>
+          <li class="list-item" v-for="el in locations" :key="el">{{ el }}</li>
+        </ul>
+      </div>
     </div>
     <h4>Galleria:</h4>
     <galleria :value="allImgs" container-class="galleria">
@@ -27,17 +30,18 @@
 
 <script lang="ts">
 import { useApi } from '@/api'
-import type { EvolutionsResponse, EvolvesTo, PokemonDetails } from '@/types'
-import { Galleria } from 'primevue'
+import type { EvolvesTo, PokemonDetails } from '@/types'
+import { Galleria, ProgressSpinner } from 'primevue'
 
 export default {
   props: ['details'],
-  components: { Galleria },
+  components: { Galleria, ProgressSpinner },
   data() {
     return {
       api: useApi(),
       evolutions: [] as string[],
       locations: [] as string[],
+      isLoading: true,
     }
   },
   computed: {
@@ -58,12 +62,15 @@ export default {
     },
   },
   async mounted() {
-    const evolutions: EvolutionsResponse = await this.api.fetchEvolutions(
-      (this.details as PokemonDetails).speciesUrl,
-    )
-    this.buildEvolutionsArr([evolutions.chain])
+    const { speciesUrl, areasUrl } = this.details as PokemonDetails
 
-    const locations = await this.api.fetchAreas((this.details as PokemonDetails).areasUrl)
+    const [evolutions, locations] = await Promise.all([
+      this.api.fetchEvolutions(speciesUrl),
+      this.api.fetchAreas(areasUrl),
+    ])
+    this.isLoading = false
+
+    this.buildEvolutionsArr([evolutions.chain])
     if (locations) this.locations = locations.map((el) => el.replaceAll('-', ' '))
   },
 }
@@ -73,6 +80,7 @@ export default {
 .wrapper {
   border-color: rgb(40, 40, 40);
   color: white;
+  width: 400px;
 }
 .header {
   text-transform: capitalize;
@@ -85,8 +93,14 @@ export default {
 .list-item {
   text-transform: capitalize;
 }
+.spinner {
+  width: 100%;
+}
 
 @media only screen and (max-width: 500px) {
+  .wrapper {
+    width: auto;
+  }
   .galleria {
     max-width: 300px;
   }

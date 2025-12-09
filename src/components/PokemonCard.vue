@@ -4,7 +4,8 @@
       <i class="pi pi-bookmark bookmark-icon" v-if="!isFavorite"></i>
       <i class="pi pi-bookmark-fill bookmark-icon" v-if="isFavorite"></i>
     </div>
-    <div @click="toggleModal" class="content">
+    <progress-spinner v-if="isLoading" class="spinner"></progress-spinner>
+    <div @click="toggleModal" class="content" v-else>
       <prime-image :src="details.img" :alt="details.name"></prime-image>
       <div class="text-wrapper">
         <h3 class="header">{{ name }}</h3>
@@ -31,9 +32,10 @@ import { colors } from '@/config'
 import TheModal from './ModalWindow.vue'
 import { useApi } from '@/api'
 import { getLocalBookmarks } from '@/helper'
+import { ProgressSpinner } from 'primevue'
 
 export default {
-  components: { PrimeImage, PrimeDialog, TheModal },
+  components: { PrimeImage, PrimeDialog, TheModal, ProgressSpinner },
   props: ['name'],
   data() {
     return {
@@ -42,6 +44,7 @@ export default {
       modalVisible: false,
       api: useApi(),
       isFavorite: false,
+      isLoading: true,
     }
   },
   methods: {
@@ -73,6 +76,7 @@ export default {
     this.checkFavorite()
 
     const details = await this.api.fetchDetails(this.name)
+    this.isLoading = false
     if (details) {
       this.details = details
 
@@ -90,9 +94,10 @@ export default {
   flex-direction: column;
   align-items: center;
 
+  min-height: 260px;
+  padding: 0;
   position: relative;
   padding: 1rem;
-  min-height: 200px;
   border-radius: 20px;
   background-color: grey;
 
@@ -107,6 +112,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 .text-wrapper {
   display: flex;
@@ -136,12 +142,21 @@ export default {
 .bookmark-icon:hover {
   transform: scale(1.2);
 }
+.spinner {
+  margin-top: 4rem;
+}
 @media only screen and (max-width: 500px) {
+  .container {
+    min-height: 160px;
+  }
   .content {
     display: grid;
     grid-template-columns: 40% 1fr;
     width: 100%;
     justify-items: center;
+  }
+  .spinner {
+    margin-top: 1rem;
   }
 }
 </style>
